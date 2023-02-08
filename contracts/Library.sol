@@ -48,7 +48,7 @@ contract Library {
 
     function BorrowBook(uint256 _id) external checkIfBookExist(_id) {
         require(borrowedBooks[msg.sender][_id] == false, "#########");
-        require(books[_id].quantity > 0, "aaaaaaa");
+        require(books[_id].quantity > 0, "we dont'have this book already");
         borrowedBooks[msg.sender][_id] = true;
         books[_id].quantity--;
         borrowHistory[_id].push(msg.sender);

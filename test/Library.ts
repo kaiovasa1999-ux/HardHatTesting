@@ -42,13 +42,18 @@ describe('Library', function (){
         });
     });
 
-    // describe("BorrowBook", function() {
-    //     it("Should borrow proper books", async function(){
-    //         const{book,otherAccount} = await loadFixture(everyTime);
-    //         const addBookTx = await library.AddNewBook(book);
-    //         await addBookTx.wait();
+    describe("BorrowBook", function() {
+        // it("Should borrow proper books", async function(){
+        //     const{book,otherAccount} = await loadFixture(everyTime);
+        //     const addBookTx = await library.AddNewBook(book);
+        //     await addBookTx.wait();
        
-    //         expect(await library.connect(otherAccount).BorrowBook(1)).to.be.revertedWith("book doesn't exist in our library");
-    //     })
-    // })
+        //     expect(await library.connect(otherAccount).BorrowBook(1)).to.be.revertedWith("...");
+        // })
+
+        it("Should thowr an error when try to borrow book whic ain't exist",async function(){
+            const {owner} = await loadFixture(everyTime);
+            expect(library.connect(owner).BorrowBook(1)).to.be.revertedWith("we dont'have this book already");
+        })
+    })
 })
