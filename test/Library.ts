@@ -43,17 +43,25 @@ describe('Library', function (){
     });
 
     describe("BorrowBook", function() {
-        // it("Should borrow proper books", async function(){
-        //     const{book,otherAccount} = await loadFixture(everyTime);
-        //     const addBookTx = await library.AddNewBook(book);
-        //     await addBookTx.wait();
+        it("Should borrow proper books", async function(){
+            const{book,owner} = await loadFixture(everyTime);
+            const addBookTx = await library.connect(owner).AddNewBook(book);
+            await addBookTx.wait();
        
-        //     expect(await library.connect(otherAccount).BorrowBook(1)).to.be.revertedWith("...");
-        // })
+            expect(await library.connect(owner).BorrowBook(1)).to.be.revertedWith("...");
+        })
 
         it("Should thowr an error when try to borrow book whic ain't exist",async function(){
             const {owner} = await loadFixture(everyTime);
             expect(library.connect(owner).BorrowBook(1)).to.be.revertedWith("we dont'have this book already");
         })
     })
+
+    describe("History Log", function() {
+        it("Shoult log proper history when someone borrow a book", async function(){
+            const {owner,book} = await loadFixture(everyTime);
+            const borrowTx = await library.connect(owner).BorrowBook(book);
+            await borrowTx.wait();
+        })
+    });
 })
