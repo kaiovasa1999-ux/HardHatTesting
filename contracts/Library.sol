@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 pragma solidity ^0.8.9;
 
@@ -22,7 +23,7 @@ contract Library {
     modifier checkIfBookExist(uint256 _id) {
         bytes32 keyHash = keccak256(abi.encodePacked(_id));
         require(
-            doesBookExist[keyHash] == false,
+            doesBookExist[keyHash] == true,
             "book doesn't exist in our library"
         );
         _;
@@ -47,7 +48,7 @@ contract Library {
     }
 
     function BorrowBook(uint256 _id) external checkIfBookExist(_id) {
-        require(borrowedBooks[msg.sender][_id] == false, "#########");
+        require(borrowedBooks[msg.sender][_id] == false, "borroled already");
         require(books[_id].quantity > 0, "we dont'have this book already");
         borrowedBooks[msg.sender][_id] = true;
         books[_id].quantity--;
@@ -55,7 +56,10 @@ contract Library {
     }
 
     function ReturnBook(uint256 _id) external {
-        require(borrowedBooks[msg.sender][_id] == true);
+        require(
+            borrowedBooks[msg.sender][_id] == true,
+            "you aren't borrowed this book"
+        );
         borrowedBooks[msg.sender][_id] = false;
         books[_id].quantity++;
     }

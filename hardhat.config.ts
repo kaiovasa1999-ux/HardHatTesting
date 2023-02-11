@@ -13,8 +13,12 @@ const config: HardhatUserConfig = {
       ],
     },
   },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at <https://etherscan.io/>
+    apiKey: "CHIRAADNUI814XIT9ST36R63UFNBNDKBDY"
+  },
 };
-
 
 module.exports = {
   solidity: {
